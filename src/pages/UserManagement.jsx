@@ -7,8 +7,12 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { ChevronDown, Download, PenLine, Plus, Search, Tag } from "lucide-react";
 import Sidebar from "@/components/sidebar/Sidebar";
 import Header from "@/components/header/Header";
+import AddUserModal from "@/components/windows/AddUser";
+import EditUserModal from "@/components/windows/EditUserModal";
 
 export default function UserManagement() {
+  const [showAddUserModal, setShowAddUserModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [users] = useState([
     { email: "JetteJ@gmail.com", status: "Active", minutesUsed: 60, lastLogin: "30/03/2025", registered: "30/03/2025" },
     { email: "nimna@gmail.com", status: "Active", minutesUsed: 20, lastLogin: "30/03/2025", registered: "30/03/2025" },
@@ -70,7 +74,8 @@ export default function UserManagement() {
               </div>
             </div>
             <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto">
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto"
+               onClick={() => setShowAddUserModal(true)}>
                 <Plus className="h-4 w-4 mr-2" />
                 Add User
               </Button>
@@ -120,6 +125,7 @@ export default function UserManagement() {
                         variant="outline"
                         size="sm"
                         className="border-blue-800 bg-blue-900/30 text-blue-400 hover:bg-blue-800/50 hover:text-blue-300"
+                        onClick={() => setSelectedUser(user)}
                       >
                         <PenLine className="h-4 w-4 mr-1" />
                         Edit
@@ -132,6 +138,16 @@ export default function UserManagement() {
           </div>
         </div>
       </div>
+      {showAddUserModal && (
+        <AddUserModal onClose={() => setShowAddUserModal(false)} />
+      )}
+      
+      {selectedUser && (
+        <EditUserModal user={selectedUser} onClose={() => setSelectedUser(null)} />
+      )}
+
     </div>
+
+    
   );
 }
